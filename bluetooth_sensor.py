@@ -96,7 +96,18 @@ def sound(frequency, note):
 
 
 
+# send string on both server and client
+def send(msg):
+    print(msg)
+    msg = msg+"\n"
+    client.send(msg.encode())    
 
+# receive a message form the client
+def recv():
+    byte_data = client.recv(1024)
+    data = byte_data.decode().strip()
+    print("recv: ", data, "(", len(data), ")")
+    return data
 
 
 server = BluetoothSocket(RFCOMM)
@@ -106,21 +117,22 @@ print("start server...")
 try:
     client, info = server.accept()
     print("client mac:", info[0], ", port:", info[1])
+
+    # user come
+    send("hello")
+    for i in range(0, 2):
+        GPIO.output(led_pin1, True)
+        GPIO.output(led_pin2, True)
+        time.sleep(0.3)
+        GPIO.output(led_pin1, False)
+        GPIO.output(led_pin2, False)
+        time.sleep(0.3)
 except KeyboardInterrupt:
     print("abort")
     server.close()
     exit()
 
-def send(msg):
-    print(msg)
-    msg = msg+"\n"
-    client.send(msg.encode())    
 
-def recv():
-    byte_data = client.recv(1024)
-    data = byte_data.decode().strip()
-    print("recv: ", data, "(", len(data), ")")
-    return data
 
 try:
     while True:
@@ -194,6 +206,8 @@ try:
             p2.stop()
 
             send("PWM end")
+
+
         if "motor"in data:
             GPIO.output(GPIO_RP, True)
             GPIO.output(GPIO_RN, False)
@@ -213,14 +227,17 @@ try:
 
 
         if "sonic"in data:
+            send("keep measuring distance until distance < 10")
+            while True:
+                dist= distance()
+                send("Measured Distance = %.1f cm" % dist)
 
-            dist= distance()
-            send("Measured Distance = %.1f cm" % dist)
-
-            if dist < 10:
-                sound(4, quarterNote)
-                sound(4, quarterNote)
-                sound(2, halfNote)
+                if dist < 10:
+                    sound(4, quarterNote)
+                    sound(4, quarterNote)
+                    sound(2, halfNote)
+                    send("end ultra sonic")
+                    break
 
         if "quit" in data:
             send("good-bye")
