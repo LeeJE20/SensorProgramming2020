@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+<title>{{ title }}</title>
+</head>
+<body>
+<h1>Pin Status</h1>
+<h2>{{ response }}</h2>
+
+
+<input type='button' onClick='changed(14)' value='LED14'/>
+<input type='button' onClick='changed(15)' value='LED15'/>
+
+<input type='button' onClick='changed(16)' value='two LED'/>
+
+<script>
+function changed(led)
+{
+window.location.href='/led/' + led;
+}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+<title>{{ title }}</title>
+</head>
+<body>
+<h1>GPIO Control</h1>
+<h2>LEDs & Music</h2>
+
+
+<input type='button' onClick='changed(0)' value='LED 0'/>
+<input type='button' onClick='changed(1)' value='LED 1'/>
+
+<input type='button' onClick='changed(2)' value='Music 2'/>
+
+<script>
+function changed(pin)
+{
+window.location.href='/' + pin;
+}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+<title>{{ title }}</title>
+</head>
+<body>
+<h1>Enjoy the final exam. of Sensor Programming!</h1>
+<h2>The current data and time on the server is: {{ datetime }}</h2>
+<h2>The current temperature of this room is: {{ temp }} degree</h2>
+
+<br/><br/>
+
+{% if (temp > 32) %}
+<h2>It is so hot...!!!</h2>
+{% elif(temp > 28) %}
+<h2>It is warm....!!!</h2>
+{% elif(temp < 20) %}
+<h2>It is cold...!!!</h2>
+{% else %}
+<h2>It is good...!!!</h2>
+{% endif %} 
+
+
+
+
+</body>
+</html>
